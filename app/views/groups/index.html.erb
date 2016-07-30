@@ -1,0 +1,14 @@
+<h1>Group list</h1>
+<div class="">
+  <%= link_to("Add a group", new_group_path, class:"btn btn-default")%>
+</div>
+<div class="">
+
+  <% @groups.each do |group| %>
+  title:<%= group.title %>
+  description:<%= group.description %>
+  <%= link_to("Edit",edit_group_path(group))%>
+  <%= link_to("Delete",group_path(group), :method => :delete)%>
+  <% end %>
+
+</div>
