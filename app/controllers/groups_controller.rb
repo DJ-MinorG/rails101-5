@@ -25,7 +25,7 @@ class GroupsController < ApplicationController
   end
 
   def update
-    
+
     if @group.update(params_group)
       redirect_to groups_path
     else
@@ -41,6 +41,7 @@ class GroupsController < ApplicationController
 
   def show
     @group=Group.find(params[:id])
+    @posts=@group.posts
   end
 
   private
