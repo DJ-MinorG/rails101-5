@@ -14,6 +14,7 @@ class GroupsController < ApplicationController
     @group=Group.new(params_group)
     @group.user=current_user
     if @group.save
+      current_user.join!(@group)
       redirect_to groups_path
     else
       render :new
@@ -43,6 +44,35 @@ class GroupsController < ApplicationController
     @group=Group.find(params[:id])
     @posts=@group.posts.order("created_at DESC")
   end
+
+  def join
+    @group=Group.find(params[:id])
+    if !current_user.is_member_of?(@group)
+      current_user.join!(@group)
+      flash[:notice]="add in group successfully!"
+    else
+      flash[:warning]="You are already the member of the group"
+    end
+
+    redirect_to group_path(@group)
+  end
+
+  def quit
+    @group=Group.find(params[:id])
+    if current_user.is_member_of?(@group)
+      current_user.quit!(@group)
+      flash[:alert] = "withdraw from the group successfully"
+    else
+      flash[:warning]="You are not the member of the group originally"
+    end
+    redirect_to group_path(@group)
+  end
+
+
+
+
+
+
 
   private
   def params_group
